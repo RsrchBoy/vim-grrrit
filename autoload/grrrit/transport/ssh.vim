@@ -26,10 +26,7 @@ endfunc
 " ssh g:grrrit#ssh_host gerrit query --current-patch-set --format json project:ndn limit:5
 func! grrrit#transport#ssh#get(cmd, args)
 
-    let shell_cmd = 'ssh ' . g:grrrit#ssh_host . ' gerrit ' . a:cmd . ' --format json ' . a:args
-    echom shell_cmd
-
-    let raw_json = systemlist(shell_cmd)
+    let raw_json = grrrit#transport#ssh#raw(a:cmd, '--format json ' . a:args)
     " PPmsg raw_json
 
     let changes = []
@@ -40,6 +37,15 @@ func! grrrit#transport#ssh#get(cmd, args)
 
     return changes
 endfunc
+
+func! grrrit#transport#ssh#raw(cmd, args)
+
+    let shell_cmd = 'ssh ' . g:grrrit#ssh_host . ' gerrit ' . a:cmd . ' ' . a:args
+    echom shell_cmd
+
+    return systemlist(shell_cmd)
+endfunc
+
 
 " for review:
 "   ssh g:grrrit#ssh_host gerrit review 26794,1 --verified +1 --code-review +2 --submit
