@@ -85,3 +85,16 @@ func! grrrit#changes() abort
 
 endfunc
 
+" Approve the given change.  Note change can be '#####,#' or a commit sha1; a
+" sha1 is most definitely recommended.
+func! grrrit#approve(change)
+    " only the ssh transport is enabled for this at the moment
+    return grrrit#transport#ssh#approve(a:change)
+endfunc
+
+" Approve the commit being shown in the current buffer -- e.g. a fugutive
+" revision buffer
+func! grrrit#approvecurrent()
+    call grrrit#approve(fugitive#buffer().commit())
+endfunc
+

@@ -49,3 +49,16 @@ endfunc
 
 " for review:
 "   ssh g:grrrit#ssh_host gerrit review 26794,1 --verified +1 --code-review +2 --submit
+" dispatch#compile_command(0, "ssh ndngit gerrit review --code-review +2 " . fugitive#repo().rev_parse(fugitive#repo().head()), 1)
+" fugitive#buffer().commit()
+" dispatch#compile_command(0, "ssh ndngit gerrit review --code-review +2 " . fugitive#buffer().commit(), 1)
+
+func! grrrit#transport#ssh#approve(change)
+
+    " TODO FIXME stop bypassing our own transport bits here...
+    " call grrrit#transport#ssh#get()
+    " call dispatch#compile_command(0, "ssh ndngit gerrit review --code-review +2 " . fugitive#buffer().commit(), 1)
+    echom "+2'ing " . a:change
+    call dispatch#compile_command(0, "ssh ndngit gerrit review --code-review +2 " . a:change, 1)
+endfunc
+
