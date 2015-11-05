@@ -18,29 +18,15 @@ func! grrrit#query(query)
     " split and remove the last status element
 
     if g:grrrit#transport == 'fake'
-
         return grrrit#transport#fake#query(a:query)
-
-        let l:raw_json = s:raw_json
     elseif g:grrrit#transport == 'rest'
-
         return grrrit#transport#rest#query(a:query)
-
     elseif g:grrrit#transport == 'ssh'
-
         return grrrit#transport#ssh#query(a:query)
     else
         " DIE here!
     endif
 
-    let changes_json = split(l:raw_json, "\n")
-    let changes      = []
-    for change_json in changes_json
-        let change = webapi#json#decode(change_json)
-        call add(changes, change)
-    endfor
-
-    return changes
 endfunc
 
 func! grrrit#querystatusline(stats)
@@ -87,32 +73,15 @@ func! grrrit#changes() abort
                     " \ . ' | ' . change['owner']['username']
                     " \ . ' | ' . (change['open'] ? 'open' : 'closed')
     endfor
-    " :%Tabularize /|
     exec ":5," . line('$') . "Tabularize /|"
 
-    " call append(line('$'), 'md5: ' . webapi#hmac#md5('one', 'two'))
     call append(line('$'), '')
-    "# the following is only easy to get off of the ssh transport...
-    " call append(line('$'), webapi#json#encode(grr_statusline))
-    " call append(line('$'), grrrit#querystatusline(grr_statusline))
 
     setlocal nomodifiable
     setlocal ft=grrrit
     let b:grrrit_line = getline('.')
 
-    "au CursorMoved <buffer> call grrrit#cursormoved()
-
     nmap <buffer> <silent> <CR> :echo grrrit#buffer#util#reviewnum()<CR>
 
-    " FIXME temp until we're being used as a plugin
-    " source ~/work/vim/vim-grrrit/syntax/grrrit.vim
-
 endfunc
 
-func! grrrit#cursormoved()
-
-    echo b:grrrit_line
-    if b:grrrit_line == getline('.')
-        return
-    endif
-endfunc
