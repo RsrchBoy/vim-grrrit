@@ -102,7 +102,7 @@ func! grrrit#changes() abort
 
     "au CursorMoved <buffer> call grrrit#cursormoved()
 
-    nmap <buffer> <silent> <CR> :echo strpart(getline("."), 0, stridx(getline("."), " "))<CR>
+    nmap <buffer> <silent> <CR> :echo grrrit#buffer#util#reviewnum()<CR>
 
     " FIXME temp until we're being used as a plugin
     " source ~/work/vim/vim-grrrit/syntax/grrrit.vim
