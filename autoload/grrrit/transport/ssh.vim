@@ -1,4 +1,5 @@
 
+
 func! grrrit#transport#ssh#query(query, ...)
     " let changes_json = split(s:raw_json, "\n")
     " let changes      = []
@@ -9,7 +10,7 @@ func! grrrit#transport#ssh#query(query, ...)
 
     let changes = grrrit#transport#ssh#get(
                 \   'query',
-                \   'project:ndn OR project:ndn/oneoffs limit:' . g:grrrit#changesperpage
+                \   '--current-patch-set project:ndn OR project:ndn/oneoffs limit:' . g:grrrit#changesperpage
                 \)
     " last row is just a status
     call remove(changes, -1)
