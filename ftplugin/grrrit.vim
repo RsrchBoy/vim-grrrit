@@ -1,2 +1,2 @@
 
-au CursorMoved <buffer> call grrrit#cursormoved()
+" au CursorMoved <buffer> call grrrit#cursormoved()
